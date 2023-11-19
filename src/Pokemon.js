@@ -11,10 +11,7 @@ const Pokemon = () => {
     const [pokemon, setPokemon] = useState(DEFAULT_POKEMON);
 
     useEffect(() => {
-        axios.get('https://pokeapi.co/api/v2/pokemon/')
-            .then((response) => {
-                setPokedex(response.data.results);
-            });
+        axios.get('http://localhost:3001/api/pokemons').then((response) => { setPokedex(response.data) })
     }, []);
 
     const handleSubmit = (event) => {
