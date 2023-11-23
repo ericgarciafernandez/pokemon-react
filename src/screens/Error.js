@@ -1,5 +1,4 @@
-const Error = (props) => {
-    const { errorMsg } = props;
+const Error = ({errorMsg}) => {
     return (
         <div>
             {errorMsg ? `El error es: ${errorMsg}` : null}

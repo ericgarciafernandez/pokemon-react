@@ -1,5 +1,4 @@
-const Form = (props) => {
-    const { changes, submit, pokemon } = props;
+const Form = ({ changes, submit, pokemon }) => {
     return (
         <form onSubmit={submit}>
             <div>
