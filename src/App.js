@@ -55,10 +55,10 @@ const App = () => {
 
   return (
     <div>
-      {isLoading ? <Loading /> : null}
-      {error ? <Error errorMsg={error} /> : null}
       {pokedex ? <Listado pokedex={pokedex} /> : null}
-      <Form changes={handleInputChange} submit={handleSubmit} pokemon={pokemon} />
+      {error ? <Error errorMsg={error} /> : null}
+      {isLoading ? <Loading /> : null}
+      {/* <Form changes={handleInputChange} submit={handleSubmit} pokemon={pokemon} /> */}
     </div>
   )
 }

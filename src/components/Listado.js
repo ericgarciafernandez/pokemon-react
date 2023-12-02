@@ -1,16 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
 import Detalles from "./Detalles";
+import { Table, TableBody, TableCell, TableRow, TableContainer, TableHead, TablePagination, Button, Container } from "@mui/material";
+import '@fontsource/roboto/500.css';
 
 const Listado = ({ pokedex }) => {
     const [specificPokemon, setSpecificPokemon] = useState({});
 
     const handleDetails = (namePokemon) => {
-        console.log(namePokemon);
         const fetchPokemon = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokemons/` + namePokemon);
                 setSpecificPokemon(response.data);
+
             } catch (error) {
                 console.log(error.message);
             }
@@ -18,28 +20,35 @@ const Listado = ({ pokedex }) => {
         fetchPokemon();
     }
 
+
     return (
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>URL</th>
-                        <th>Detalles</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {pokedex.map((pokemon, index) => (
-                        <tr key={pokemon.id}>
-                            <td>{pokemon.name}</td>
-                            <td>{pokemon.url}</td>
-                            <td onClick={handleDetails.bind(null, pokemon.name)}>Entrar</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            {Object.keys(specificPokemon).length > 0 ? <Detalles details={specificPokemon} /> : null}
-        </div>
+        <>
+            <Container maxWidth="sm">
+                <TableContainer sx={{ maxHeight: 400 }}>
+                    <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Nombre</TableCell>
+                                <TableCell>URL</TableCell>
+                                <TableCell>Detalles</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody >
+                            {pokedex.map((pokemon, index) => (
+                                <TableRow key={pokemon.id}>
+                                    <TableCell>{pokemon.name}</TableCell>
+                                    <TableCell>{pokemon.url}</TableCell>
+                                    <TableCell>
+                                        <Button onClick={handleDetails.bind(null, pokemon.name)} variant="contained">Entrar</Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                {Object.keys(specificPokemon).length > 0 ? <Detalles details={specificPokemon} /> : null}
+            </Container>
+        </>
     )
 }
 
