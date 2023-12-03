@@ -1,25 +1,37 @@
-import { useState } from "react";
 import axios from "axios";
-import Detalles from "./Detalles";
 import { Table, TableBody, TableCell, TableRow, TableContainer, TableHead, TablePagination, Button, Container } from "@mui/material";
 import '@fontsource/roboto/500.css';
+import Detalles from "./Detalles";
+import { v4 as uuidv4 } from 'uuid';
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const Listado = ({ pokedex }) => {
-    const [specificPokemon, setSpecificPokemon] = useState({});
+const Listado = () => {
+    const [pokedex, setPokedex] = useState([]); // Listado de pokemons
+    const [isLoading, setIsLoading] = useState(false); // Tiempos de espera
+    const [error, setError] = useState(""); // Muestra errores
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchPokemons = async () => {
+            setIsLoading(true);
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokemons`);
+                const pokemonsWithId = response.data.map((pokemon, index) => ({ ...pokemon, id: uuidv4() }));
+                setPokedex(pokemonsWithId);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchPokemons();
+    }, []);
 
     const handleDetails = (namePokemon) => {
-        const fetchPokemon = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokemons/` + namePokemon);
-                setSpecificPokemon(response.data);
-
-            } catch (error) {
-                console.log(error.message);
-            }
-        }
-        fetchPokemon();
+        navigate(`/detalles/${namePokemon}`);
     }
-
 
     return (
         <>
@@ -46,7 +58,6 @@ const Listado = ({ pokedex }) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {Object.keys(specificPokemon).length > 0 ? <Detalles details={specificPokemon} /> : null}
             </Container>
         </>
     )
