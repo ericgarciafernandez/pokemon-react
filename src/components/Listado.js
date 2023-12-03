@@ -46,7 +46,7 @@ const Listado = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody >
-                            {pokedex.map((pokemon, index) => (
+                            {!isLoading ? pokedex.map((pokemon, index) => (
                                 <TableRow key={pokemon.id}>
                                     <TableCell>{pokemon.name}</TableCell>
                                     <TableCell>{pokemon.url}</TableCell>
@@ -54,7 +54,8 @@ const Listado = () => {
                                         <Button onClick={handleDetails.bind(null, pokemon.name)} variant="contained">Entrar</Button>
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            )) : 'Loading...'}
+                            {error ? <p>{error}</p> : ''}
                         </TableBody>
                     </Table>
                 </TableContainer>
