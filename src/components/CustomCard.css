@@ -1,0 +1,13 @@
+.card {
+    min-width: 250px;
+}
+
+.card-media {
+    min-height: 200px;
+}
+
+.types {
+    width: auto;
+    border: 1px solid;
+    border-radius: 2em;
+}

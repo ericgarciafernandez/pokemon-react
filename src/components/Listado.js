@@ -4,10 +4,8 @@ import '@fontsource/roboto/500.css';
 import { v4 as uuidv4 } from 'uuid';
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Detalles from "./Detalles";
 import Loading from "../screens/Loading";
 import Error from "../screens/Error";
-
 
 const Listado = () => {
     const [pokedex, setPokedex] = useState([]); // Listado de pokemons

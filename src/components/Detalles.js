@@ -1,7 +1,8 @@
-import { Button, Card, CardMedia, CardContent, CardActionArea, Typography, Stack, Chip } from "@mui/material";
+import { Button, Card, CardMedia, CardContent, CardActions, Typography, Stack, Chip } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import * as Constants from '../Constants'
 
 const Detalles = () => {
     const { nombrePokemon } = useParams();
@@ -32,13 +33,21 @@ const Detalles = () => {
                     <Typography gutterBottom variant="h5" component="div">
                         {specificPokemon.name}
                     </Typography>
-
                     <Stack direction="row" spacing={1}>
                         {specificPokemon.name ? specificPokemon.types.map((element, index) => (
-                            <Chip key={element.type.name} label={element.type.name} />
+                            <Chip
+                                style={{
+                                    backgroundColor: Constants.DEFAULT_COLORS_TYPE[element.type.name],
+                                    textTransform: 'uppercase'
+                                }}
+                                key={element.type.name}
+                                label={element.type.name} />
                         )) : ''}
                     </Stack>
                 </CardContent>
+                <CardActions>
+                    <Button size="small"><Link to="/">Volver</Link></Button>
+                </CardActions>
             </Card >
         </>
     )
