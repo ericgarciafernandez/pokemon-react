@@ -1,0 +1,5 @@
+.linkStyle {
+    text-transform: capitalize;
+    text-decoration: none;
+    cursor: pointer;
+}

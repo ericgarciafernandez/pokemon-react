@@ -19,3 +19,25 @@ export const DEFAULT_COLORS_TYPE = Object.freeze({
     unknown: '#FFFF',
     shadow: '#FFFF',
 });
+
+export const DEFAULT_BACKGROUND_TYPE = Object.freeze({
+    normal: '#d3d3d3',
+    fighting: '#999',
+    flying: '#999',
+    poison: '#9a6fff',
+    ground: '#544726c8',
+    rock: '#544726c8',
+    bug: '#49d0b0',
+    ghost: '#9a6fff',
+    steel: '#d3d3d3',
+    fire: '#fa6d6b',
+    water: '#76befe',
+    grass: '#49d0b0',
+    electric: '#ffd76f',
+    psychic: '#fc6cb4',
+    ice: '#76befe',
+    dragon: '#111',
+    fairy: '#fc6cb4',
+    unknown: '#FFFF',
+    shadow: '#FFFF',
+});

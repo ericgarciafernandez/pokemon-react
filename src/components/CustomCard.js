@@ -2,12 +2,18 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography, Grid, Button,
 import './CustomCard.css';
 import * as Constants from '../Constants';
 
-const CustomCard = ({ image, title, types }) => {
+const CustomCard = ({ image, id, title, types }) => {
+
+    const numId = (id) => {
+        return 'Nº ' + id.toString().padStart(4, '0');
+    }
+
     return (
         <Card className="card">
-            <CardMedia className="card-media" image={image} sx={{ backgroundColor: 'lightgray' }} />
+            <CardMedia className="card-media" image={image} sx={{ backgroundColor: Constants.DEFAULT_BACKGROUND_TYPE[types[0].type.name] }} />
             <CardContent>
-                <Typography className="title">{title}</Typography>
+                <Typography variant="caption" display="block">{numId(id)}</Typography>
+                <Typography variant="overline" display="block">{title}</Typography>
                 <ButtonGroup variant="outlined" aria-label="outlined button group">
                     {types.map(element =>
                         <Button
@@ -20,7 +26,6 @@ const CustomCard = ({ image, title, types }) => {
                             {element.type.name}
                         </Button>)}
                 </ButtonGroup>
-
             </CardContent>
         </Card>
     )

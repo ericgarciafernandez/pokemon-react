@@ -1,8 +1,7 @@
-import { Button, Card, CardMedia, CardContent, CardActions, Typography, Stack, Chip } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import * as Constants from '../Constants'
+import { Container, Grid, Box, CardActions, Button, Typography } from "@mui/material";
 
 const Detalles = () => {
     const { nombrePokemon } = useParams();
@@ -21,35 +20,34 @@ const Detalles = () => {
     }, [nombrePokemon]);
 
     return (
-        <>
-            <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                    sx={{ height: 140 }}
-                    component="img"
-                    alt="sprite"
-                    image={specificPokemon.name ? specificPokemon.sprites.front_default : ''}
-                />
-                <CardContent sx={{ bgcolor: '#bbdefb' }}>
-                    <Typography gutterBottom variant="h5" component="div">
-                        {specificPokemon.name}
+        <Container maxWidth="md">
+            <Grid container>
+                <Grid item xs={12}>
+
+                    <Typography variant="h2" gutterBottom>
+                        {nombrePokemon}
                     </Typography>
-                    <Stack direction="row" spacing={1}>
-                        {specificPokemon.name ? specificPokemon.types.map((element, index) => (
-                            <Chip
-                                style={{
-                                    backgroundColor: Constants.DEFAULT_COLORS_TYPE[element.type.name],
-                                    textTransform: 'uppercase'
-                                }}
-                                key={element.type.name}
-                                label={element.type.name} />
-                        )) : ''}
-                    </Stack>
-                </CardContent>
-                <CardActions>
-                    <Button size="small"><Link to="/">Volver</Link></Button>
-                </CardActions>
-            </Card >
-        </>
+                </Grid>
+                <Grid item xs={6}>
+                    <Box
+                        component="img"
+                        className="card-media"
+                        alt="image pokemon"
+                        src={specificPokemon.name ? specificPokemon.sprites.front_default : ''}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    {
+                        specificPokemon.name ? specificPokemon.stats.map(el => <div key={el.stat.name}>{el.base_stat}</div>) : ''
+                    }
+                </Grid>
+                <Grid item xs={12}>
+                    <CardActions>
+                        <Button size="small"><Link to="/">Volver</Link></Button>
+                    </CardActions>
+                </Grid>
+            </Grid>
+        </Container>
     )
 }
 

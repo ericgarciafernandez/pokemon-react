@@ -1,8 +1,10 @@
+import { Skeleton } from "@mui/material"
+
 const Loading = () => {
     return (
-        <div>
-            Loading...
-        </div>
+        <>
+            <Skeleton variant="rounded" width={900} height={600} />
+        </>
     )
 }
 
