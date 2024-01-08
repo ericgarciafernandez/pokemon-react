@@ -33,7 +33,7 @@ const Navbar = () => {
 
     return (
         <>
-            <AppBar position="sticky" sx={{ bgcolor: '#0277bd' }} >
+            <AppBar position="sticky" sx={{ bgcolor: '#ff2323' }} >
                 <Toolbar>
                     <CatchingPokemonIcon sx={{ display: { md: 'flex' }, mr: 1 }} />
                     <Typography sx={{ flexGrow: 1 }}>

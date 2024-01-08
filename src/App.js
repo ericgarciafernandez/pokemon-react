@@ -5,11 +5,12 @@ import Footer from "./components/Footer"
 
 const App = () => {
   return (
-      <Container maxWidth="md">
-        <Navbar />
-        <Cartas />
-        <Footer />
-      </Container>
+    <Container maxWidth="md">
+      <Navbar />
+      <Cartas />
+      <Footer />
+    </Container>
+
   )
 }
 

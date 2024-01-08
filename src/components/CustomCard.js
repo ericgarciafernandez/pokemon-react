@@ -10,7 +10,7 @@ const CustomCard = ({ image, id, title, types }) => {
 
     return (
         <Card className="card">
-            <CardMedia className="card-media" image={image} sx={{ backgroundColor: Constants.DEFAULT_BACKGROUND_TYPE[types[0].type.name] }} />
+            <CardMedia className="card-media" image={image} sx={{ bgcolor: '#fff0f0' }} />
             <CardContent>
                 <Typography variant="caption" display="block">{numId(id)}</Typography>
                 <Typography variant="overline" display="block">{title}</Typography>

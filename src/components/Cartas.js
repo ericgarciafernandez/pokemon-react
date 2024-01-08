@@ -36,7 +36,7 @@ const Cartas = () => {
     }, [offset]);
 
     return (
-        <Grid container justifyContent="center" padding={2}>
+        <Grid container justifyContent="center" padding={2} sx={{ borderLeft: '1px solid', borderRight: '1px solid', borderColor: '#454545' }} >
             {!isLoading ? pokedex.map(element =>
                 <Link key={element.data.id} to={`/detalles/${element.data.name}`} className="linkStyle">
                     <Grid item padding={1} >

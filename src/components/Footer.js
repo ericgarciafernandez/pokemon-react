@@ -17,7 +17,7 @@ const Footer = () => {
 
     return (
         <Paper sx={{ position: 'sticky', bottom: 0, width: '100%' }} elevation={3}>
-            <BottomNavigation showLabels sx={{ bgcolor: '#ff9800' }}>
+            <BottomNavigation showLabels sx={{ bgcolor: '#fff0f0' }}>
                 {offset > 0 ?
                     <BottomNavigationAction
                         label="Anterior"
