@@ -15,13 +15,12 @@ const Research = ({ listPokemon }) => {
                                 disableGutters
                                 secondaryAction={
                                     <IconButton aria-label="info" sx={{ color: '#500000' }} >
-                                        <InfoIcon  />
+                                        <InfoIcon />
                                     </IconButton>
                                 }
                             >
                                 <ListItemText primary={pokemon.name} sx={{ color: '#500000' }} />
                             </ListItem>
-
                         </Link>
                 )}
             </List>

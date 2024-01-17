@@ -9,22 +9,26 @@ import { Link } from "react-router-dom";
 import { PokemonContext } from "../context/DataContext";
 import './Cartas.css';
 
-
 const Cartas = () => {
     const [pokedex, setPokedex] = useState([]);
-    const { offset, setOffset, error, setError, isLoading, setIsLoading } = useContext(PokemonContext);
+    const {
+        offset, setOffset,
+        error, setError,
+        isLoading, setIsLoading,
+        pokemonWithType, setPokemonWithType
+    } = useContext(PokemonContext);
 
     useEffect(() => {
         const fetchPokemons = async () => {
-            setIsLoading(true);
             try {
+                setIsLoading(true);
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokedex/${offset}`);
                 const namepokemons = response.data.map(element => element.name);
-                const infoPokemons = await Promise.all(
-                    namepokemons.map(async (namePokemon) => {
-                        return await axios.get(`${process.env.REACT_APP_API_URL}/api/pokemons/` + namePokemon);
-                    })
-                );
+                const infoPromises = namepokemons.map(async (namePokemon) => {
+                    const pokemonResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokemons/` + namePokemon);
+                    return pokemonResponse;
+                });
+                const infoPokemons = await Promise.all(infoPromises);
                 setPokedex(infoPokemons);
             } catch (error) {
                 setError(error.message);
@@ -34,6 +38,24 @@ const Cartas = () => {
         }
         fetchPokemons();
     }, [offset]);
+
+    useEffect(() => {
+        const fetchPokWithType = async () => {
+            try {
+                const promises = pokemonWithType.map(async (namePokemon) => {
+                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokemons/` + namePokemon);
+                    return response;
+                });
+                const newPokedex = await Promise.all(promises);
+                setPokedex(newPokedex);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchPokWithType();
+    }, [pokemonWithType]);
 
     return (
         <Grid container justifyContent="center" padding={2} sx={{ borderLeft: '1px solid', borderRight: '1px solid', borderColor: '#454545' }} >
@@ -49,6 +71,7 @@ const Cartas = () => {
                     </Grid>
                 </Link>
             ) : <Loading />}
+
             {error ? <Error errorMsg={error} /> : ''}
         </Grid >
     )
