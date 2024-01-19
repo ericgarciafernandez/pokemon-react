@@ -5,14 +5,16 @@ import { useContext, useState } from "react";
 import { PokemonContext } from "../context/DataContext";
 
 const Footer = () => {
-    const { offset, setOffset } = useContext(PokemonContext);
+    const { offset, setOffset, offsetType, setOffsetType } = useContext(PokemonContext);
 
     const handleSumOffset = () => {
-        setOffset(offset + 20);
+        setOffset(offset + 9);
+        setOffsetType(offsetType + 9);
     }
 
     const handleResOffset = () => {
-        setOffset(offset - 20);
+        setOffset(offset - 9);
+        setOffsetType(offsetType - 9);
     }
 
     return (

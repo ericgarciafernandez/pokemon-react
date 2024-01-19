@@ -7,7 +7,7 @@ import Research from "./Research";
 import { PokemonContext } from "../context/DataContext";
 
 const Navbar = () => {
-    const { pokemonWithType, setPokemonWithType } = useContext(PokemonContext);
+    const { pokemonWithType, setPokemonWithType, pokemonType, setPokemonType } = useContext(PokemonContext);
     const [searchPokemon, setSearchPokemon] = useState('');
     const [listPokemon, setListPokemon] = useState([]);
     const [typeList, setTypeList] = useState([]);
@@ -25,17 +25,20 @@ const Navbar = () => {
         fetchTypes();
     }, []);
 
+    useEffect(() => {
+        searchType(pokemonType);
+    }, [pokemonType]);
+
     const handleType = (event) => {
         event.preventDefault();
         const value = event.target.value;
-        searchType(value);
-
+        setPokemonType(value);
     }
 
-    const searchType = (value) => {
+    const searchType = (pokemonType) => {
         const fetchPokemonsType = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/types/` + value);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/types/` + pokemonType);
                 const type = response.data;
                 const namePokemons = type.map((el) => el.pokemon.name);
                 setPokemonWithType(namePokemons);
@@ -52,7 +55,6 @@ const Navbar = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokedex`);
                 const allPokemons = response.data;
-                console.log(allPokemons);
                 const filterPokemons = allPokemons.filter(pokemon => pokemon.name.includes(value));
                 setListPokemon(filterPokemons);
             } catch (error) {
@@ -83,7 +85,7 @@ const Navbar = () => {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value=''
+                            value={pokemonType}
                             label=""
                             onChange={handleType}
                         >

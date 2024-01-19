@@ -13,23 +13,39 @@ const Cartas = () => {
     const [pokedex, setPokedex] = useState([]);
     const {
         offset, setOffset,
+        offsetType, setOffsetType,
         error, setError,
         isLoading, setIsLoading,
-        pokemonWithType, setPokemonWithType
+        pokemonWithType, setPokemonWithType,
+        pokemonType, setPokemonType
     } = useContext(PokemonContext);
 
     useEffect(() => {
         const fetchPokemons = async () => {
             try {
                 setIsLoading(true);
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokedex/${offset}`);
-                const namepokemons = response.data.map(element => element.name);
-                const infoPromises = namepokemons.map(async (namePokemon) => {
-                    const pokemonResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokemons/` + namePokemon);
-                    return pokemonResponse;
-                });
-                const infoPokemons = await Promise.all(infoPromises);
-                setPokedex(infoPokemons);
+                console.log(pokemonType);
+                if (pokemonType !== '') {
+                    const chunk = pokemonWithType.slice(offsetType - 9, offsetType);
+                    console.log(chunk);
+                    const promises = chunk.map(async (namePokemon) => {
+                        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokemons/` + namePokemon);
+                        return response;
+                    });
+                    const newPokedex = await Promise.all(promises);
+                    setPokedex(newPokedex);
+                } else {
+                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokedex/${offset}`);
+                    const namepokemons = response.data.map(element => element.name);
+                    const infoPromises = namepokemons.map(async (namePokemon) => {
+                        const pokemonResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokemons/` + namePokemon);
+                        return pokemonResponse;
+                    });
+                    const infoPokemons = await Promise.all(infoPromises);
+                    setPokedex(infoPokemons);
+                }
+
+
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -42,7 +58,9 @@ const Cartas = () => {
     useEffect(() => {
         const fetchPokWithType = async () => {
             try {
-                const promises = pokemonWithType.map(async (namePokemon) => {
+                const chunk = pokemonWithType.slice(offsetType - 9, offsetType);
+                console.log(chunk);
+                const promises = chunk.map(async (namePokemon) => {
                     const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokemons/` + namePokemon);
                     return response;
                 });

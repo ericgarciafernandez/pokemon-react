@@ -10,7 +10,7 @@ const Research = ({ listPokemon }) => {
             <List sx={{ padding: 2, backgroundColor: '#fff0f0' }}>
                 {listPokemon.map(
                     (pokemon) =>
-                        <Link key={pokemon.name} to={`/detalles/${pokemon.name}`} className="linkStyle">
+                        <Link key={pokemon.name} to={`/detalles/${pokemon.name}`}>
                             <ListItem
                                 disableGutters
                                 secondaryAction={
