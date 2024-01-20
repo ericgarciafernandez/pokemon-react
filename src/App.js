@@ -1,5 +1,5 @@
 import Navbar from "./components/Navbar"
-import Cartas from "./components/Cartas"
+import Card from "./components/Card"
 import { Container } from "@mui/material"
 import Footer from "./components/Footer"
 
@@ -7,7 +7,7 @@ const App = () => {
   return (
     <Container maxWidth="md">
       <Navbar />
-      <Cartas />
+      <Card />
       <Footer />
     </Container>
 

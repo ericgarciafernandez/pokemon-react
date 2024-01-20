@@ -1,15 +1,15 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Container, Grid, Box, CardActions, Button, Typography, Card, CardActionArea, CardMedia, CardContent, List, ListItem } from "@mui/material";
+import {CardActions, Button, Typography, Card, CardActionArea, CardMedia, CardContent, List, ListItem } from "@mui/material";
 import LinearProgress from '@mui/material/LinearProgress';
 import * as Constants from '../Constants';
-import TypeButton from "./TypeButton";
 import TableTypes from "./TableTypes";
 
 const Detalles = () => {
     const { nombrePokemon } = useParams();
     const [specificPokemon, setSpecificPokemon] = useState({}); // Detalle del pokemon
+    
     useEffect(() => {
         const fetchPokemon = async () => {
             try {

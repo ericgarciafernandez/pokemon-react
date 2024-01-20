@@ -1,4 +1,4 @@
-import { Card, CardActionArea, CardContent, CardMedia, Typography, Grid, Button, ButtonGroup } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import TypeButton from "./TypeButton";
 
 const CustomCard = ({ image, id, title, types }) => {

@@ -1,7 +1,7 @@
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { PokemonContext } from "../context/DataContext";
 
 const Footer = () => {
@@ -11,7 +11,7 @@ const Footer = () => {
         setOffset(offset + 9);
         setOffsetType(offsetType + 9);
     }
-
+    
     const handleResOffset = () => {
         setOffset(offset - 9);
         setOffsetType(offsetType - 9);
