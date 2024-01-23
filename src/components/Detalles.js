@@ -1,15 +1,25 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import {CardActions, Button, Typography, Card, CardActionArea, CardMedia, CardContent, List, ListItem } from "@mui/material";
-import LinearProgress from '@mui/material/LinearProgress';
+import {
+    Card,
+    CardActionArea,
+    CardActions,
+    CardContent,
+    CardMedia,
+    Button,
+    Typography,
+    List,
+    ListItem,
+    LinearProgress,
+} from "@mui/material";
 import * as Constants from '../Constants';
 import TableTypes from "./TableTypes";
 
 const Detalles = () => {
     const { nombrePokemon } = useParams();
     const [specificPokemon, setSpecificPokemon] = useState({}); // Detalle del pokemon
-    
+
     useEffect(() => {
         const fetchPokemon = async () => {
             try {
@@ -18,16 +28,16 @@ const Detalles = () => {
             } catch (error) {
                 console.log(error.message);
             }
-        }
+        };
         fetchPokemon();
     }, [nombrePokemon]);
 
     const getFirstType = () => {
         if (specificPokemon.types !== undefined) {
             const firstType = specificPokemon.types.map((el) => el.type.name);
-            return firstType[0]
+            return firstType[0];
         }
-    }
+    };
 
     return (
         <Card sx={{ maxWidth: 450, margin: 'auto', bgcolor: '#fff0f0' }}>
@@ -45,14 +55,12 @@ const Detalles = () => {
                     </Typography>
                     <Typography component="div">
                         <List>
-                            {
-                                specificPokemon.name ? specificPokemon.stats.map(el =>
-                                    <ListItem key={el.stat.name} sx={{ height: '5vh' }}>
-                                        <Typography sx={{ width: '50%', fontSize: '12px' }}>{el.stat.name.toUpperCase() + ' ' + el.base_stat}</Typography>
-                                        <LinearProgress variant="determinate" value={el.base_stat > 100 ? 100 : el.base_stat} sx={{ width: '100%' }}></LinearProgress>
-                                    </ListItem>
-                                ) : ''
-                            }
+                            {specificPokemon.name && specificPokemon.stats.map(el => (
+                                <ListItem key={el.stat.name} sx={{ height: '5vh' }}>
+                                    <Typography sx={{ width: '50%', fontSize: '12px' }}>{el.stat.name.toUpperCase() + ' ' + el.base_stat}</Typography>
+                                    <LinearProgress variant="determinate" value={el.base_stat > 100 ? 100 : el.base_stat} sx={{ width: '100%' }}></LinearProgress>
+                                </ListItem>
+                            ))}
                         </List>
                     </Typography>
                     <TableTypes types={specificPokemon.types ? specificPokemon.types : []} />
@@ -64,8 +72,7 @@ const Detalles = () => {
                 </Button>
             </CardActions>
         </Card>
+    );
+};
 
-    )
-}
-
-export default Detalles
+export default Detalles;

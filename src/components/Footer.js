@@ -1,7 +1,7 @@
+import React, { useContext } from "react";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useContext } from "react";
 import { PokemonContext } from "../context/DataContext";
 
 const Footer = () => {
@@ -10,29 +10,31 @@ const Footer = () => {
     const handleSumOffset = () => {
         setOffset(offset + 9);
         setOffsetType(offsetType + 9);
-    }
-    
+    };
+
     const handleResOffset = () => {
         setOffset(offset - 9);
         setOffsetType(offsetType - 9);
-    }
+    };
 
     return (
         <Paper sx={{ position: 'sticky', bottom: 0, width: '100%' }} elevation={3}>
             <BottomNavigation showLabels sx={{ bgcolor: '#fff0f0' }}>
-                {offset > 0 ?
+                {offset > 0 && (
                     <BottomNavigationAction
                         label="Anterior"
                         icon={<ArrowBackIosNewIcon />}
-                        onClick={handleResOffset} />
-                    : ''}
+                        onClick={handleResOffset}
+                    />
+                )}
                 <BottomNavigationAction
                     label="Continuar"
                     icon={<ArrowForwardIosIcon />}
-                    onClick={handleSumOffset} />
-            </BottomNavigation >
-        </Paper >
-    )
-}
+                    onClick={handleSumOffset}
+                />
+            </BottomNavigation>
+        </Paper>
+    );
+};
 
-export default Footer
+export default Footer;

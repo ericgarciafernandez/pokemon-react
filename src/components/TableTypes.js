@@ -1,61 +1,139 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Chip } from "@mui/material";
 import * as Constants from '../Constants';
 import { useState, useEffect } from "react";
 
 const TableTypes = ({ types }) => {
     const [typesPokemon, setTypesPokemon] = useState([]);
+    const [superWeaknesses, setSuperWeaknesses] = useState([]);
+    const [weaknesses, setWeaknesses] = useState([]);
+    const [strengths, setStrengths] = useState([]);
 
     useEffect(() => {
-        if (types) {
+        if (types && Array.isArray(types)) {
             const updatedTypes = types.map(element => element.type.name);
             setTypesPokemon(updatedTypes);
         }
     }, [types]);
 
-    const getWeakStrengthTypes = () => {
+    useEffect(() => {
+        getWeakStrengthTypes();
+    }, [typesPokemon]);
+
+    const calculateWeaknesses = (type1, type2) => {
         const combinationTypes = Constants.DEFAULT_TYPES_COMBINATION;
 
-        if (typesPokemon.length > 1) {
-            console.log(typesPokemon);
-            Constants.DEFAULT_TYPES.map((element) => {
-                if (
-                    combinationTypes[typesPokemon[0]].weaknesses.indexOf(element) !== -1 &&
-                    combinationTypes[typesPokemon[1]].weaknesses.indexOf(element) !== -1
-                ) {
-                    console.log('x4:', element);
-                }
-ls
-            })
-        } else {
-            const wordPokemon = typesPokemon.join('');
-            const typeCombination = combinationTypes[wordPokemon];
-            if (typeCombination) {
-                console.log('Fortalezas:', typeCombination.strengths);
-                console.log('Debilidades:', typeCombination.weaknesses);
+        const arrayFirstTypeWeak = combinationTypes[type1]?.weaknesses || [];
+        const arraySecondTypeStrength = combinationTypes[type2]?.strengths || [];
+        const arrayFirstTypeStrength = combinationTypes[type1]?.strengths || [];
+        const arraySecondTypeWeak = combinationTypes[type2]?.weaknesses || [];
+
+        const arraySuperWeak = arrayFirstTypeWeak.filter(type => arraySecondTypeWeak.includes(type));
+        const arrayAllWeak = arrayFirstTypeWeak.concat(arraySecondTypeWeak);
+        const arrayAllStrength = arrayFirstTypeStrength.concat(arraySecondTypeStrength);
+
+        Constants.DEFAULT_TYPES.forEach((element) => {
+            if (
+                (arrayFirstTypeWeak.includes(element) && arraySecondTypeStrength.includes(element)) ||
+                (arrayFirstTypeStrength.includes(element) && arraySecondTypeWeak.includes(element))
+            ) {
+                const index = arrayAllWeak.indexOf(element);
+                arrayAllWeak.splice(index, 1);
             }
 
-        }
+            if (
+                (!arrayFirstTypeWeak.includes(element) && arraySecondTypeStrength.includes(element)) ||
+                (arrayFirstTypeStrength.includes(element) && !arraySecondTypeWeak.includes(element))
+            ) {
+                const index = arrayAllStrength.indexOf(element);
+                arrayAllStrength.splice(index, 1);
+            }
+        });
 
-        console.log(Constants.DEFAULT_TYPES);
+        const arraySinDuplicados = Array.from(new Set(arrayAllWeak));
+        const filteredArrayWeak = arraySinDuplicados.filter(weakness => ![type1, type2].includes(weakness));
+
+        const arrayStrengthsSinDuplicados = Array.from(new Set(arrayAllStrength));
+        const filteredArrayStrengths = arrayStrengthsSinDuplicados.filter(strengths => ![type1, type2].includes(strengths));
+
+        return { arraySuperWeak, arrayWeak: filteredArrayWeak, arrayStrength: filteredArrayStrengths };
+    }
+
+    const getWeakStrengthTypes = () => {
+        console.log(typesPokemon);
+        if (typesPokemon.length > 1) {
+            const [type1, type2] = typesPokemon;
+            const { arraySuperWeak, arrayWeak, arrayStrength } = calculateWeaknesses(type1, type2);
+
+            setSuperWeaknesses(arraySuperWeak);
+            setWeaknesses(arrayWeak);
+            setStrengths(arrayStrength);
+        } else {
+            const wordPokemon = typesPokemon.join('');
+            const typeCombination = Constants.DEFAULT_TYPES_COMBINATION[wordPokemon];
+            if (typeCombination) {
+                setStrengths(typeCombination.strengths);
+                setWeaknesses(typeCombination.weaknesses);
+            }
+        }
     }
 
     return (
         <Box sx={{ width: '100%' }}>
             <Typography>TYPE: </Typography>
-            {types !== undefined ?
-                types.map(element =>
-                    <Typography
-                        style={{
-                            borderColor: Constants.DEFAULT_COLORS_TYPE[element.type.name],
-                            color: Constants.DEFAULT_COLORS_TYPE[element.type.name]
-                        }}
+            {types && Array.isArray(types) &&
+                types.map(element => (
+                    <Chip
                         key={element.type.name}
-                    >
-                        {element.type.name.toUpperCase()}
-                    </Typography>
-                ) : ''
-            }
-            {typesPokemon ? getWeakStrengthTypes() : ''}
+                        variant="outlined"
+                        label={element.type.name}
+                        sx={{ borderColor: Constants.DEFAULT_COLORS_TYPE[element.type.name], color: Constants.DEFAULT_COLORS_TYPE[element.type.name] }}
+                    />
+                ))}
+
+            {superWeaknesses.length > 0 && (
+                <>
+                    <Typography>Super Weaknesses:</Typography>
+                    <div>
+                        {superWeaknesses.map((weakness, index) => (
+                            <Chip
+                                key={index}
+                                variant="outlined"
+                                label={weakness}
+                                sx={{ borderColor: Constants.DEFAULT_COLORS_TYPE[weakness], color: Constants.DEFAULT_COLORS_TYPE[weakness] }} />
+                        ))}
+                    </div>
+                </>
+            )}
+
+            {weaknesses.length > 0 && (
+                <>
+                    <Typography>Weaknesses:</Typography>
+                    <div>
+                        {weaknesses.map((weakness, index) => (
+                            <Chip
+                                key={index}
+                                variant="outlined"
+                                label={weakness}
+                                sx={{ borderColor: Constants.DEFAULT_COLORS_TYPE[weakness], color: Constants.DEFAULT_COLORS_TYPE[weakness] }} />
+                        ))}
+                    </div>
+                </>
+            )}
+
+            {strengths.length > 0 && (
+                <>
+                    <Typography>Strengths:</Typography>
+                    <div>
+                        {strengths.map((strength, index) => (
+                            <Chip
+                                key={index}
+                                variant="outlined"
+                                label={strength}
+                                sx={{ borderColor: Constants.DEFAULT_COLORS_TYPE[strength], color: Constants.DEFAULT_COLORS_TYPE[strength] }} />
+                        ))}
+                    </div>
+                </>
+            )}
         </Box>
     );
 }

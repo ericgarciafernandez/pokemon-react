@@ -1,8 +1,8 @@
-import { AppBar, Toolbar, Typography, FormControl, Select, Input, InputLabel, MenuItem } from "@mui/material"
+import React, { useState, useEffect, useContext } from "react";
+import { AppBar, Toolbar, Typography, FormControl, Select, Input, InputLabel, MenuItem } from "@mui/material";
 import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from "axios";
-import { useState, useEffect, useContext } from "react"
 import Research from "./Research";
 import { PokemonContext } from "../context/DataContext";
 
@@ -21,7 +21,7 @@ const Navbar = () => {
             } catch (error) {
                 console.log(error.message);
             }
-        }
+        };
         fetchTypes();
     }, []);
 
@@ -33,48 +33,41 @@ const Navbar = () => {
         event.preventDefault();
         const value = event.target.value;
         setPokemonType(value);
-    }
+    };
 
-    const searchType = (pokemonType) => {
-        const fetchPokemonsType = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/types/` + pokemonType);
-                const type = response.data;
-                const namePokemons = type.map((el) => el.pokemon.name);
-                setPokemonWithType(namePokemons);
-                console.log(namePokemons);
-            } catch (error) {
-                console.log(error.message);
-            }
+    const searchType = async (pokemonType) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/types/` + pokemonType);
+            const type = response.data;
+            const namePokemons = type.map((el) => el.pokemon.name);
+            setPokemonWithType(namePokemons);
+            console.log(namePokemons);
+        } catch (error) {
+            console.log(error.message);
         }
-        fetchPokemonsType();
-    }
+    };
 
-    const searchData = (value) => {
-        const fetchPokedex = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokedex`);
-                const allPokemons = response.data;
-                const filterPokemons = allPokemons.filter(pokemon => pokemon.name.includes(value));
-                setListPokemon(filterPokemons);
-            } catch (error) {
-                console.log(error.message);
-            }
+    const searchData = async (value) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/pokedex`);
+            const allPokemons = response.data;
+            const filterPokemons = allPokemons.filter(pokemon => pokemon.name.includes(value));
+            setListPokemon(filterPokemons);
+        } catch (error) {
+            console.log(error.message);
         }
-        fetchPokedex();
-    }
+    };
 
     const handleChange = (event) => {
         event.preventDefault();
         const value = event.target.value;
         setSearchPokemon(value);
         searchData(value);
-    }
-
+    };
 
     return (
         <>
-            <AppBar position="sticky" sx={{ bgcolor: '#ff2323' }} >
+            <AppBar position="sticky" sx={{ bgcolor: '#ff2323' }}>
                 <Toolbar>
                     <CatchingPokemonIcon sx={{ display: { md: 'flex' }, mr: 1 }} />
                     <Typography sx={{ flexGrow: 1 }}>
@@ -95,11 +88,10 @@ const Navbar = () => {
                     <SearchIcon />
                     <Input value={searchPokemon} onChange={handleChange} />
                 </Toolbar>
-                {searchPokemon.length > 2 ? <Research listPokemon={listPokemon} /> : ''}
-
-            </AppBar >
+                {searchPokemon.length > 2 && <Research listPokemon={listPokemon} />}
+            </AppBar>
         </>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;
