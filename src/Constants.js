@@ -45,7 +45,7 @@ export const DEFAULT_BACKGROUND_TYPE = Object.freeze({
 export const DEFAULT_TYPES = ['normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting', 'poison',
     'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'steel', 'dark', 'fairy'];
 
-export const DEFAULT_TYPES_COMBINATION = {
+export const DEFAULT_TYPES_COMBINATION = Object.freeze({
     normal: {
         strengths: [],
         weaknesses: ['fighting'],
@@ -82,7 +82,7 @@ export const DEFAULT_TYPES_COMBINATION = {
         immunity: [],
     },
     poison: {
-        strengths: ['grass', 'fairy', 'fighting', 'bug'],
+        strengths: ['grass', 'fairy', 'bug'],
         weaknesses: ['ground', 'rock', 'ghost'],
         immunity: [],
     },
@@ -136,4 +136,4 @@ export const DEFAULT_TYPES_COMBINATION = {
         weaknesses: ['poison', 'steel'],
         immunity: ['dragon'],
     },
-};
+});

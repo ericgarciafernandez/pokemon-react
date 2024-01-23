@@ -7,6 +7,7 @@ const TableTypes = ({ types }) => {
     const [superWeaknesses, setSuperWeaknesses] = useState([]);
     const [weaknesses, setWeaknesses] = useState([]);
     const [strengths, setStrengths] = useState([]);
+    const [immunity, setImmunity] = useState([]);
 
     useEffect(() => {
         if (types && Array.isArray(types)) {
@@ -19,15 +20,17 @@ const TableTypes = ({ types }) => {
         getWeakStrengthTypes();
     }, [typesPokemon]);
 
-    const calculateWeaknesses = (type1, type2) => {
+    const calculateModifier = (type1, type2) => {
         const combinationTypes = Constants.DEFAULT_TYPES_COMBINATION;
 
         const arrayFirstTypeWeak = combinationTypes[type1]?.weaknesses || [];
-        const arraySecondTypeStrength = combinationTypes[type2]?.strengths || [];
         const arrayFirstTypeStrength = combinationTypes[type1]?.strengths || [];
+
         const arraySecondTypeWeak = combinationTypes[type2]?.weaknesses || [];
+        const arraySecondTypeStrength = combinationTypes[type2]?.strengths || [];
 
         const arraySuperWeak = arrayFirstTypeWeak.filter(type => arraySecondTypeWeak.includes(type));
+
         const arrayAllWeak = arrayFirstTypeWeak.concat(arraySecondTypeWeak);
         const arrayAllStrength = arrayFirstTypeStrength.concat(arraySecondTypeStrength);
 
@@ -49,30 +52,35 @@ const TableTypes = ({ types }) => {
             }
         });
 
-        const arraySinDuplicados = Array.from(new Set(arrayAllWeak));
+        const arraySinDuplicados = arrayAllWeak.flat();
         const filteredArrayWeak = arraySinDuplicados.filter(weakness => ![type1, type2].includes(weakness));
 
-        const arrayStrengthsSinDuplicados = Array.from(new Set(arrayAllStrength));
+        const arrayStrengthsSinDuplicados = arrayAllStrength.flat();
         const filteredArrayStrengths = arrayStrengthsSinDuplicados.filter(strengths => ![type1, type2].includes(strengths));
 
         return { arraySuperWeak, arrayWeak: filteredArrayWeak, arrayStrength: filteredArrayStrengths };
     }
 
     const getWeakStrengthTypes = () => {
-        console.log(typesPokemon);
         if (typesPokemon.length > 1) {
             const [type1, type2] = typesPokemon;
-            const { arraySuperWeak, arrayWeak, arrayStrength } = calculateWeaknesses(type1, type2);
+            const { arraySuperWeak, arrayWeak, arrayStrength } = calculateModifier(type1, type2);
+            const arrayImmunity = Constants.DEFAULT_TYPES_COMBINATION[type1].immunity.concat(
+                Constants.DEFAULT_TYPES_COMBINATION[type2].immunity
+            ).flat();
 
             setSuperWeaknesses(arraySuperWeak);
             setWeaknesses(arrayWeak);
             setStrengths(arrayStrength);
+            setImmunity(arrayImmunity);
+
         } else {
             const wordPokemon = typesPokemon.join('');
             const typeCombination = Constants.DEFAULT_TYPES_COMBINATION[wordPokemon];
             if (typeCombination) {
                 setStrengths(typeCombination.strengths);
                 setWeaknesses(typeCombination.weaknesses);
+                setImmunity(typeCombination.immunity);
             }
         }
     }
@@ -130,6 +138,21 @@ const TableTypes = ({ types }) => {
                                 variant="outlined"
                                 label={strength}
                                 sx={{ borderColor: Constants.DEFAULT_COLORS_TYPE[strength], color: Constants.DEFAULT_COLORS_TYPE[strength] }} />
+                        ))}
+                    </div>
+                </>
+            )}
+
+            {immunity.length > 0 && (
+                <>
+                    <Typography>Immunity:</Typography>
+                    <div>
+                        {immunity.map((immunity, index) => (
+                            <Chip
+                                key={index}
+                                variant="outlined"
+                                label={immunity}
+                                sx={{ borderColor: Constants.DEFAULT_COLORS_TYPE[immunity], color: Constants.DEFAULT_COLORS_TYPE[immunity] }} />
                         ))}
                     </div>
                 </>
