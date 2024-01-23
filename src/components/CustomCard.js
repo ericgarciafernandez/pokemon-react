@@ -11,7 +11,7 @@ const CustomCard = ({ image, id, title, types }) => {
         <Card sx={{ minWidth: '250px' }}>
             <CardMedia image={image || ''} sx={{ minHeight: '200px', bgcolor: '#fff0f0' }} />
             <CardContent>
-                <Typography variant="caption" display="block">
+                <Typography variant="caption" display="block" >
                     {numId(id)}
                 </Typography>
                 <Typography variant="overline" display="block">

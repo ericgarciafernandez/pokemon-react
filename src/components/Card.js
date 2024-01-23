@@ -55,17 +55,18 @@ const Card = () => {
             container
             justifyContent="center"
             padding={2}
-            sx={{ borderLeft: '1px solid', borderRight: '1px solid', borderColor: '#454545', textDecoration: 'none', cursor: 'pointer' }}
+            sx={{ borderLeft: '1px solid', borderRight: '1px solid', borderColor: '#454545', cursor: 'pointer' }}
         >
             {!isLoading ? (
                 pokedex.map((element) => (
-                    <Link key={element.data.id} to={`/detalles/${element.data.name}`} className="linkStyle">
+                    <Link key={element.data.id} to={`/detalles/${element.data.name}`} style={{ textDecoration: 'none' }}>
                         <Grid item padding={1}>
                             <CustomCard
                                 image={element.data.sprites.front_default}
                                 id={element.data.id}
                                 title={element.data.name}
                                 types={element.data.types}
+
                             />
                         </Grid>
                     </Link>
