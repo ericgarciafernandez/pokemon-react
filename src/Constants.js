@@ -82,8 +82,8 @@ export const DEFAULT_TYPES_COMBINATION = Object.freeze({
         immunity: [],
     },
     poison: {
-        strengths: ['grass', 'fairy', 'bug'],
-        weaknesses: ['ground', 'rock', 'ghost'],
+        strengths: ['grass', 'fairy'],
+        weaknesses: ['ground', 'psychic'],
         immunity: [],
     },
     ground: {
@@ -98,7 +98,7 @@ export const DEFAULT_TYPES_COMBINATION = Object.freeze({
     },
     psychic: {
         strengths: ['fighting', 'poison'],
-        weaknesses: ['psychic', 'bug', 'dark'],
+        weaknesses: ['ghost', 'bug', 'dark'],
         immunity: ['dark'],
     },
     bug: {
